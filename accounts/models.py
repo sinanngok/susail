@@ -1,15 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 import datetime
-
+from django import forms
 from .managers import UserManager
 
-class User(AbstractBaseUser):
 
+class User(AbstractBaseUser):
     # susail_id in .mdb file might be directly pass to default id attribute
     #susail_id = models.AutoField(primary_key=True)
-    first_name = models.CharField(verbose_name='first name', max_length=255, blank=True, null=False)
+    first_name = models.CharField(verbose_name=_('first name'), max_length=255, blank=True, null=False)
     last_name = models.CharField(verbose_name='last name', max_length=255, blank=True, null=False)
     su_id = models.IntegerField(blank=True, null=False, )
     email = models.EmailField(verbose_name='email address', max_length=255, )
@@ -64,7 +65,8 @@ class User(AbstractBaseUser):
         now = timezone.now()
         return self.last_visit >= timezone.now() - datetime.timedelta(minutes=15)
 
-    def get_full_name(self):
+    @property
+    def full_name(self):
         # Returns the first_name plus the last_name, with a space in between.
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()

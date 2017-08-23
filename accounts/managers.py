@@ -3,7 +3,6 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.utils import timezone
 import datetime
 
-from .models import User
 
 class UserManager(BaseUserManager):
     def create_user(self, su_id, first_name, last_name, email, phone_number, password=None):
@@ -17,7 +16,6 @@ class UserManager(BaseUserManager):
             su_id=su_id,
             first_name=first_name,
             last_name=last_name,
-            email=email,
             phone_number=phone_number,
             email=self.normalize_email(email),
             password=make_random_password(length=8)
