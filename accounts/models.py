@@ -41,12 +41,12 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
 class User(AbstractBaseUser):
 
-    susail_id = models.AutoField(primary_key=True)
-    first_name = models.CharField(('first name'), max_length=30, blank=True, null=False)
-    last_name = models.CharField(('last name'), max_length=30, blank=True, null=False)
+    # susail_id in .mdb file might be directly pass to default id attribute
+    #susail_id = models.AutoField(primary_key=True)
+    first_name = models.CharField(('first name'), max_length=255, blank=True, null=False)
+    last_name = models.CharField(('last name'), max_length=255, blank=True, null=False)
     su_id = models.IntegerField(blank=True, null=False, )
     email = models.EmailField(verbose_name='email address', max_length=255, )
 
@@ -59,15 +59,15 @@ class User(AbstractBaseUser):
     # according to E.164 max. character length of a phone number is 15
     # localflavor libabry doesn't have PhoneNumberField for Turkey but TRIdentificationNumberField is valid for forms
     phone_number = models.CharField(max_length=15, blank=True, null=False)
-    emergency_contact_name = models.CharField(('first name'), max_length=30, blank=True, null=False)
+    emergency_contact_name = models.CharField(('first name'), max_length=255, blank=True, null=False)
     emergency_phone_number = models.CharField(max_length=15, blank=True, null=False)
     date_of_birth = models.DateField(('doğum tarihi'), blank=True, null=True)
     is_entry_fee_paid = models.BooleanField(default=False)
 
     #custom sailing_levelField?
-    sailing_level = model.IntegerField(('yelken seviyesi'), blank=True, null=True, )
-    club_management_position = models.CharField(('yönetim kurulu görevi'), max_length=30, blank=True, null=False,)
-    sailing_team_position = models.CharField(('yarış takımı pozisyonu'), max_length=30, blank=True, null=False,)
+    sailing_level = models.IntegerField(('yelken seviyesi'), blank=True, null=True, )
+    club_management_position = models.CharField(('yönetim kurulu görevi'), max_length=255, blank=True, null=False,)
+    sailing_team_position = models.CharField(('yarış takımı pozisyonu'), max_length=255, blank=True, null=False,)
     extra_information_about_member = models.TextField(blank=True, null=False,)
     is_visible_on_web = models.BooleanField(default=True)
     date_joined = models.DateTimeField(('kayıt tarihi'), auto_now_add=True)
