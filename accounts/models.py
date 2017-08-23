@@ -23,13 +23,13 @@ class User(AbstractBaseUser):
     # according to E.164 max. character length of a phone number is 15
     # localflavor libabry doesn't have PhoneNumberField for Turkey but TRIdentificationNumberField is valid for forms
     phone_number = models.CharField(max_length=15, blank=True, null=False)
-    emergency_contact_name = models.CharField('first name', max_length=255, blank=True, null=False)
+    emergency_contact_name = models.CharField(verbose_name='acil durumda aranacak kişi', max_length=255, blank=True, null=False)
     emergency_phone_number = models.CharField(max_length=15, blank=True, null=False)
     date_of_birth = models.DateField(verbose_name='doğum tarihi', blank=True, null=True)
     is_entry_fee_paid = models.BooleanField(default=False)
 
     #custom sailing_levelField?
-    sailing_level = models.IntegerField('yelken seviyesi', blank=True, null=True, )
+    sailing_level = models.IntegerField(verbose_name='yelken seviyesi', blank=True, null=True, )
     club_management_position = models.CharField(verbose_name='yönetim kurulu görevi', max_length=255, blank=True, null=False,)
     sailing_team_position = models.CharField(verbose_name='yarış takımı pozisyonu', max_length=255, blank=True, null=False,)
     extra_information_about_member = models.TextField(blank=True, null=False,)
