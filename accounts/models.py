@@ -3,50 +3,14 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.utils import timezone
 import datetime
 
-class UserManager(BaseUserManager):
-    def create_user(self, su_id, first_name, last_name, email, phone_number, password=None):
-        """
-        Creates and saves a User with the given su_id, first_name, last_name, email, phone_number and password.
-        """
-        if not email:
-            raise ValueError('Users must have an email address')
-
-        user = self.model(
-            su_id=su_id,
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            phone_number=phone_number,
-            email=self.normalize_email(email),
-            password=make_random_password(length=8)
-        )
-
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, su_id, first_name, last_name, email, phone_number, password):
-        """
-        Creates and saves a superuser with the given su_id, first_name, last_name, email, phone_number and password.
-        """
-        user = self.create_user(
-            su_id,
-            first_name,
-            last_name,
-            email,
-            phone_number,
-            password=password,
-        )
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+from .managers import UserManager
 
 class User(AbstractBaseUser):
 
     # susail_id in .mdb file might be directly pass to default id attribute
     #susail_id = models.AutoField(primary_key=True)
-    first_name = models.CharField(('first name'), max_length=255, blank=True, null=False)
-    last_name = models.CharField(('last name'), max_length=255, blank=True, null=False)
+    first_name = models.CharField(verbose_name='first name', max_length=255, blank=True, null=False)
+    last_name = models.CharField(verbose_name='last name', max_length=255, blank=True, null=False)
     su_id = models.IntegerField(blank=True, null=False, )
     email = models.EmailField(verbose_name='email address', max_length=255, )
 
@@ -59,18 +23,18 @@ class User(AbstractBaseUser):
     # according to E.164 max. character length of a phone number is 15
     # localflavor libabry doesn't have PhoneNumberField for Turkey but TRIdentificationNumberField is valid for forms
     phone_number = models.CharField(max_length=15, blank=True, null=False)
-    emergency_contact_name = models.CharField(('first name'), max_length=255, blank=True, null=False)
+    emergency_contact_name = models.CharField('first name', max_length=255, blank=True, null=False)
     emergency_phone_number = models.CharField(max_length=15, blank=True, null=False)
-    date_of_birth = models.DateField(('doğum tarihi'), blank=True, null=True)
+    date_of_birth = models.DateField(verbose_name='doğum tarihi', blank=True, null=True)
     is_entry_fee_paid = models.BooleanField(default=False)
 
     #custom sailing_levelField?
-    sailing_level = models.IntegerField(('yelken seviyesi'), blank=True, null=True, )
-    club_management_position = models.CharField(('yönetim kurulu görevi'), max_length=255, blank=True, null=False,)
-    sailing_team_position = models.CharField(('yarış takımı pozisyonu'), max_length=255, blank=True, null=False,)
+    sailing_level = models.IntegerField('yelken seviyesi', blank=True, null=True, )
+    club_management_position = models.CharField(verbose_name='yönetim kurulu görevi', max_length=255, blank=True, null=False,)
+    sailing_team_position = models.CharField(verbose_name='yarış takımı pozisyonu', max_length=255, blank=True, null=False,)
     extra_information_about_member = models.TextField(blank=True, null=False,)
     is_visible_on_web = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(('kayıt tarihi'), auto_now_add=True)
+    date_joined = models.DateTimeField(verbose_name='kayıt tarihi', auto_now_add=True)
     is_an_active_student = models.BooleanField(default=True)
     is_school_staff = models.BooleanField(default=False)
     is_gorbon_captain = models.BooleanField(default=False)
@@ -94,7 +58,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['su_id',]
+    REQUIRED_FIELDS = ['su_id']
 
     def was_active_recently(self):
         now = timezone.now()
