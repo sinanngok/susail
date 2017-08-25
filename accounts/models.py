@@ -13,7 +13,7 @@ class User(AbstractBaseUser):
     first_name = models.CharField(verbose_name=_('first name'), max_length=255, blank=True, null=False)
     last_name = models.CharField(verbose_name=_('last name'), max_length=255, blank=True, null=False)
     su_id = models.IntegerField(blank=True, null=False, )
-    email = models.EmailField(verbose_name=_('email address'), max_length=255, )
+    email = models.EmailField(verbose_name=_('email address'), max_length=255, unique=True)
 
     # phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     # phone_number = models.CharField(validators=[phone_regex], blank=True)  # validators should be a list
