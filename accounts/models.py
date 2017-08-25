@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 import datetime
 
 from .managers import UserManager
@@ -9,10 +10,10 @@ class User(AbstractBaseUser):
 
     # susail_id in .mdb file might be directly pass to default id attribute
     #susail_id = models.AutoField(primary_key=True)
-    first_name = models.CharField(verbose_name='first name', max_length=255, blank=True, null=False)
-    last_name = models.CharField(verbose_name='last name', max_length=255, blank=True, null=False)
+    first_name = models.CharField(verbose_name=_('first name'), max_length=255, blank=True, null=False)
+    last_name = models.CharField(verbose_name=_('last name'), max_length=255, blank=True, null=False)
     su_id = models.IntegerField(blank=True, null=False, )
-    email = models.EmailField(verbose_name='email address', max_length=255, )
+    email = models.EmailField(verbose_name=_('email address'), max_length=255, )
 
     # phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     # phone_number = models.CharField(validators=[phone_regex], blank=True)  # validators should be a list
@@ -23,18 +24,18 @@ class User(AbstractBaseUser):
     # according to E.164 max. character length of a phone number is 15
     # localflavor libabry doesn't have PhoneNumberField for Turkey but TRIdentificationNumberField is valid for forms
     phone_number = models.CharField(max_length=15, blank=True, null=False)
-    emergency_contact_name = models.CharField('first name', max_length=255, blank=True, null=False)
+    emergency_contact_name = models.CharField(verbose_name=_('first name'), max_length=255, blank=True, null=False)
     emergency_phone_number = models.CharField(max_length=15, blank=True, null=False)
-    date_of_birth = models.DateField(verbose_name='doğum tarihi', blank=True, null=True)
+    date_of_birth = models.DateField(verbose_name=_('date of birth'), blank=True, null=True)
     is_entry_fee_paid = models.BooleanField(default=False)
 
     #custom sailing_levelField?
-    sailing_level = models.IntegerField('yelken seviyesi', blank=True, null=True, )
-    club_management_position = models.CharField(verbose_name='yönetim kurulu görevi', max_length=255, blank=True, null=False,)
-    sailing_team_position = models.CharField(verbose_name='yarış takımı pozisyonu', max_length=255, blank=True, null=False,)
+    sailing_level = models.IntegerField(verbose_name=_('sailing level'), blank=True, null=True, )
+    club_management_position = models.CharField(verbose_name=_('club management position'), max_length=255, blank=True, null=False,)
+    sailing_team_position = models.CharField(verbose_name=_('sailing team position'), max_length=255, blank=True, null=False,)
     extra_information_about_member = models.TextField(blank=True, null=False,)
     is_visible_on_web = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(verbose_name='kayıt tarihi', auto_now_add=True)
+    date_joined = models.DateTimeField(verbose_name=_('record date'), auto_now_add=True)
     is_an_active_student = models.BooleanField(default=True)
     is_school_staff = models.BooleanField(default=False)
     is_gorbon_captain = models.BooleanField(default=False)
