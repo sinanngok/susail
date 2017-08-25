@@ -30,11 +30,7 @@ class UserManager(BaseUserManager):
         Creates and saves a superuser with the given su_id, first_name, last_name, email, phone_number and password.
         """
         user = self.create_user(
-            su_id,
-            first_name,
-            last_name,
             email,
-            phone_number,
             password=password,
         )
         user.is_admin = True
