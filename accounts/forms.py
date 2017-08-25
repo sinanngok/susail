@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from localflavor.tr.forms import TRPhoneNumberField
 from .models import User
 
