@@ -3,8 +3,6 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.utils import timezone
 import datetime
 
-from .models import User
-
 class UserManager(BaseUserManager):
     def create_user(self, su_id, first_name, last_name, email, phone_number, password=None):
         """
