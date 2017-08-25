@@ -17,7 +17,6 @@ class UserManager(BaseUserManager):
             su_id=su_id,
             first_name=first_name,
             last_name=last_name,
-            email=email,
             phone_number=phone_number,
             email=self.normalize_email(email),
             password=make_random_password(length=8)
