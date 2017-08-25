@@ -61,6 +61,10 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['su_id']
 
+    class Meta:
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
+
     def was_active_recently(self):
         now = timezone.now()
         return self.last_visit >= timezone.now() - datetime.timedelta(minutes=15)
