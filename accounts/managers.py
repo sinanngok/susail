@@ -10,14 +10,13 @@ class UserManager(BaseUserManager):
         """
         Creates and saves a User with the given su_id, first_name, last_name, email, phone_number and password.
         """
-        if not email:
-            raise ValueError('Users must have an email address')
+        if not email and not su_id: #to contact SU students at least student id or email address is required
+            raise ValueError('Users must have an email address or SU ID')
 
         user = self.model(
             su_id=su_id,
             first_name=first_name,
             last_name=last_name,
-            email=email,
             phone_number=phone_number,
             email=self.normalize_email(email),
             password=make_random_password(length=8)
