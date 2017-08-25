@@ -59,7 +59,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['su_id']
+    REQUIRED_FIELDS = ['su_id', 'first_name', 'last_name', 'phone_number']
 
     class Meta:
         verbose_name = _('user')
